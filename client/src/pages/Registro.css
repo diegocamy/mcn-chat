@@ -1,0 +1,14 @@
+.Registro {
+  width: 60%;
+  margin: auto;
+  text-align: center;
+}
+
+.Registro img {
+  width: 40%;
+}
+
+.Registro .input-nombre {
+  width: 50%;
+  margin: auto;
+}
