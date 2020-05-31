@@ -2,5 +2,5 @@
 
 App de Chat con React, Express y Socket.io
 
-[DEMO LIVE](mcn-chat.herokuapp.com)
+[DEMO LIVE](http://mcn-chat.herokuapp.com)
 
