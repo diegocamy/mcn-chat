@@ -85,7 +85,7 @@
 
 .menu-salas {
   max-height: 68%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 li.ant-menu-item.ant-menu-item-only-child.ant-menu-item-active {

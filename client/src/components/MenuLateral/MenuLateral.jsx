@@ -3,7 +3,13 @@ import { Badge, Button, Menu } from 'antd';
 
 import './MenuLateral.css';
 
-const MenuLateral = ({ nombre }) => {
+const MenuLateral = ({
+  socket,
+  nombre,
+  salas,
+  salaSeleccionada,
+  setSalaSeleccionada,
+}) => {
   return (
     <div className='MenuLateral'>
       <div className='info-usuario'>
@@ -37,17 +43,20 @@ const MenuLateral = ({ nombre }) => {
       </div>
       <div className='menu-salas' id='style-1'>
         <Menu
+          selectedKeys={salaSeleccionada}
           style={{ background: 'transparent', color: 'white', border: 'none' }}
         >
-          <Menu.Item>Menu</Menu.Item>
-          <Menu.Item>Menu</Menu.Item>
-          <Menu.Item>Menu</Menu.Item>
-          <Menu.Item>Menu</Menu.Item>
-          <Menu.Item>Menu</Menu.Item>
-          <Menu.Item>Menu</Menu.Item>
-          <Menu.Item>Menu</Menu.Item>
-          <Menu.Item>Menu</Menu.Item>
-          <Menu.Item>Menu</Menu.Item>
+          {salas.map(s => (
+            <Menu.Item
+              key={s.nombre}
+              onClick={() => {
+                socket.emit('abandonar-sala', salaSeleccionada[0]);
+                setSalaSeleccionada([s.nombre]);
+              }}
+            >
+              {s.nombre}
+            </Menu.Item>
+          ))}
         </Menu>
       </div>
     </div>

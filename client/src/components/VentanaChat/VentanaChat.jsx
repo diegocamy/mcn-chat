@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Input, Button } from 'antd';
-import { SendOutlined } from '@ant-design/icons';
+import { Input, Button, Divider } from 'antd';
+import { SendOutlined, UserOutlined } from '@ant-design/icons';
+import scrollToBottom from 'react-scroll-to-bottom';
 
 import './VentanaChat.css';
 
@@ -46,19 +47,43 @@ const mostrarMensajes = (id, mensajes) => {
   );
 };
 
-const VentanaChat = ({ socket, mensajesChat }) => {
+const VentanaChat = ({
+  socket,
+  mensajesChat,
+  salaSeleccionada,
+  salas,
+  usuarios,
+}) => {
   const [mensaje, setMensaje] = useState('');
 
   const enviarMensaje = () => {
     //ENVIAR MENSAJE
-    socket.emit('enviar-mensaje', mensaje);
+    socket.emit('enviar-mensaje', { mensaje, sala: salaSeleccionada });
     setMensaje('');
   };
 
+  const sala = salas.find(s => s.nombre === salaSeleccionada);
+
   return (
     <div className='VentanaChat'>
+      <div className='info-sala'>
+        <div className='info'>
+          <h3>{sala && sala.nombre}</h3>
+          <p>{sala && sala.descripcion}</p>
+        </div>
+        <div className='users-conectados'>
+          {usuarios && usuarios.length}
+          <Button
+            icon={<UserOutlined />}
+            style={{ background: 'transparent', border: 'none' }}
+          />
+        </div>
+      </div>
+      <Divider style={{ margin: '5px 0' }} />
       <div className='mensajes-chat'>
-        {mostrarMensajes(socket.id, mensajesChat)}
+        <scrollToBottom>
+          {mostrarMensajes(socket.id, mensajesChat)}
+        </scrollToBottom>
       </div>
       <div className='input-mensaje'>
         <TextArea

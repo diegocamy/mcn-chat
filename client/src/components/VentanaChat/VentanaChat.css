@@ -5,6 +5,21 @@
   flex-direction: column;
 }
 
+.VentanaChat .info-sala {
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.VentanaChat .info-sala h3 {
+  margin: 0;
+}
+
+.VentanaChat .info-sala p {
+  margin: 0;
+}
+
 .VentanaChat .mensajes-chat {
   flex-grow: 1;
   overflow-y: auto;
