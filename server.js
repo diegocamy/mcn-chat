@@ -1,6 +1,7 @@
 const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+const path = require('path');
 
 const { registrarUsuario, eliminarUsuario } = require('./utils/usuarios');
 const {
@@ -124,5 +125,13 @@ io.on('connection', socket => {
 });
 
 const PORT = process.env.PORT || 5000;
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('clent/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 http.listen(PORT, () => console.log(`Live on port ${PORT}`));
