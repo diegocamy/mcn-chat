@@ -11,7 +11,7 @@ function App() {
   const [usuario, setUsuario] = useState(null);
 
   if (usuario) {
-    return <Chat />;
+    return <Chat socket={socket} usuario={usuario} />;
   } else {
     return <Registro socket={socket} setUsuario={setUsuario} />;
   }

@@ -1,0 +1,97 @@
+.VentanaChat {
+  width: 75%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.VentanaChat .mensajes-chat {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+/* LISTA DE MENSAJES */
+.VentanaChat .mensajes-chat .lista-mensajes {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+}
+
+.lista-mensajes .superior p {
+  margin: auto 10px;
+}
+
+.lista-mensajes .superior p:first-of-type {
+  font-weight: bold;
+}
+
+.lista-mensajes .superior img {
+  width: 35px;
+  margin: auto 10px;
+}
+
+.VentanaChat .input-mensaje {
+  justify-self: flex-end;
+  display: flex;
+  justify-content: space-around;
+  margin-top: auto;
+  padding: 25px;
+  padding-top: 10px;
+}
+
+/* MENSAJE ENVIADO POR MI */
+
+.VentanaChat .mensajes-chat .lista-mensajes .mensaje-mio {
+  max-width: 60%;
+  align-self: flex-end;
+}
+
+.VentanaChat .mensajes-chat .lista-mensajes .mensaje-mio .superior {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+}
+
+.VentanaChat .mensajes-chat .lista-mensajes .mensaje-mio .inferior .mensaje {
+  padding: 10px;
+  border-radius: 15px;
+  border-top-right-radius: 2px;
+  text-align: right;
+  margin-right: 25px;
+  margin-left: auto;
+  width: fit-content;
+  margin-bottom: 0;
+}
+
+/* MENSAJE ENVIADO POR OTRO */
+.VentanaChat .mensajes-chat .lista-mensajes .mensaje-ajeno {
+  max-width: 60%;
+  align-self: flex-start;
+}
+
+.VentanaChat .mensajes-chat .lista-mensajes .mensaje-ajeno .superior {
+  display: flex;
+  justify-content: space-around;
+}
+
+.VentanaChat .mensajes-chat .lista-mensajes .mensaje-ajeno .inferior .mensaje {
+  padding: 10px;
+  border-radius: 15px;
+  border-top-left-radius: 2px;
+  margin-left: 25px;
+  margin-right: auto;
+  width: fit-content;
+  margin-bottom: 0;
+}
+
+/* MENSAJE ENVIADO POR EL ADMIN  */
+.VentanaChat .mensajes-chat .lista-mensajes .mensaje-admin {
+  margin: 5px auto;
+  width: fit-content;
+}
+
+.VentanaChat .mensajes-chat .lista-mensajes .mensaje-admin .inferior .mensaje {
+  padding: 10px;
+  border-radius: 15px;
+  margin: 0;
+}

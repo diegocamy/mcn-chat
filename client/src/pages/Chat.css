@@ -1,0 +1,18 @@
+.Chat {
+  background: rgb(238, 238, 238);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tarjeta {
+  background: white;
+  display: flex;
+  width: 70%;
+  height: 80%;
+  border-radius: 30px;
+  -webkit-box-shadow: 6px 2px 11px -1px rgba(0, 0, 0, 0.37);
+  -moz-box-shadow: 6px 2px 11px -1px rgba(0, 0, 0, 0.37);
+  box-shadow: 6px 2px 11px -1px rgba(0, 0, 0, 0.37);
+}
