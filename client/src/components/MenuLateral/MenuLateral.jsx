@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, Button, Menu } from 'antd';
+import { Badge, Menu } from 'antd';
 
 import './MenuLateral.css';
 
@@ -28,18 +28,6 @@ const MenuLateral = ({
       </div>
       <div className='agregar-sala'>
         <h3>Salas de Chat</h3>
-        <Button
-          type='primary'
-          shape='circle'
-          size='small'
-          style={{
-            backgroundColor: 'transparent',
-            color: 'white',
-            borderColor: 'white',
-          }}
-        >
-          +
-        </Button>
       </div>
       <div className='menu-salas' id='style-1'>
         <Menu

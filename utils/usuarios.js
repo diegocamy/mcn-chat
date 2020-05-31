@@ -21,6 +21,10 @@ const registrarUsuario = (usuarios, nombre, socket, listaNombres, io) => {
 };
 
 const eliminarUsuario = (usuarios, socket, listaNombres) => {
+  if (!usuarios[socket.id]) {
+    return null;
+  }
+
   const { nombre } = usuarios[socket.id];
 
   //eliminar de la lista de nombres

@@ -16,3 +16,10 @@
   -moz-box-shadow: 6px 2px 11px -1px rgba(0, 0, 0, 0.37);
   box-shadow: 6px 2px 11px -1px rgba(0, 0, 0, 0.37);
 }
+
+@media only screen and (max-width: 1024px) {
+  .tarjeta {
+    width: 95%;
+    height: 95%;
+  }
+}

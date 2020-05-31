@@ -2,17 +2,28 @@ const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-const { registrarUsuario } = require('./utils/usuarios');
+const { registrarUsuario, eliminarUsuario } = require('./utils/usuarios');
+const {
+  mensajeBienvenida,
+  mensajeUsuarioAbandonoSala,
+  mensajeUsuarioIngresoALaSala,
+  mensajeEnviadoPorUsuario,
+} = require('./utils/mensajes');
 
 const usuarios = {};
 const listaNombres = [];
 const salas = [
   {
     nombre: 'General',
-    descripcion: 'Sala para temas en general',
+    descripcion: 'Sala para chatear sobre cualquier cosa',
   },
-  { nombre: 'Covid-19', descripcion: 'Todo sobre la pandemia!' },
-  { nombre: 'Xicos', descripcion: 'La sala perfecta para vos!' },
+  { nombre: 'Covid-19', descripcion: 'Usen tapabocas! 😷' },
+  { nombre: 'Cine y TV', descripcion: 'Hablemos de peliculas y series' },
+  {
+    nombre: 'Deportes',
+    descripcion: 'Sala para lo relacionado a todos los deportes',
+  },
+  { nombre: 'Guampud@s', descripcion: 'La sala perfecta para vos!' },
 ];
 
 io.on('connection', socket => {
@@ -30,14 +41,10 @@ io.on('connection', socket => {
 
   //ABANDONAR SALA
   socket.on('abandonar-sala', sala => {
-    const usuarioHaAbandonado = {
-      autor: 'Admin',
-      mensaje: `${usuarios[socket.id].nombre} se fue de la sala!`,
-      color: '#f3f3f3',
-      id: 'admin',
-    };
+    const { nombre } = usuarios[socket.id];
+    const mensaje = mensajeUsuarioAbandonoSala(nombre);
 
-    socket.to(sala).broadcast.emit('mensaje', usuarioHaAbandonado);
+    socket.to(sala).broadcast.emit('mensaje', mensaje);
     socket.leave(sala);
 
     const estaSala = io.sockets.adapter.rooms[sala];
@@ -55,29 +62,20 @@ io.on('connection', socket => {
   //CAMBIAR DE SALA
   socket.on('cambio-de-sala', sala => {
     socket.join(sala);
+    const { nombre } = usuarios[socket.id];
 
-    const mensajeBienvenida = {
-      autor: 'Admin',
-      mensaje: `Hola ${
-        usuarios[socket.id].nombre
-      } bienvenido a la sala ${sala}!`,
-      color: '#f3f3f3',
-      id: 'admin',
-    };
+    const msjBienvenida = mensajeBienvenida(nombre, sala);
 
-    io.to(socket.id).emit('mensaje', mensajeBienvenida);
+    io.to(socket.id).emit('mensaje', msjBienvenida);
 
-    const usuarioEntradoALaSala = {
-      autor: 'Admin',
-      mensaje: `${usuarios[socket.id].nombre} se unió a la sala!`,
-      color: '#f3f3f3',
-      id: 'admin',
-    };
-    socket.to(sala).broadcast.emit('mensaje', usuarioEntradoALaSala);
+    const msjUsuarioEntroSala = mensajeUsuarioIngresoALaSala(nombre, sala);
+
+    socket.to(sala).broadcast.emit('mensaje', msjUsuarioEntroSala);
 
     const usuariosEnLaSala = Object.keys(
       io.sockets.adapter.rooms[sala].sockets,
     ).map(u => usuarios[u]);
+
     io.to(sala).emit('usuarios-en-sala', usuariosEnLaSala);
   });
 
@@ -85,16 +83,43 @@ io.on('connection', socket => {
   socket.on('enviar-mensaje', ({ mensaje, sala }) => {
     const { nombre, color } = usuarios[socket.id];
 
-    const mensajito = {
-      autor: nombre,
-      id: socket.id,
-      avatar: `https://avatars.dicebear.com/api/bottts/${nombre}.svg`,
-      color: color,
-      hora: new Date().toLocaleTimeString(),
-      mensaje,
-    };
+    const msj = mensajeEnviadoPorUsuario(nombre, socket, color, mensaje);
 
-    io.to(sala).emit('mensaje', mensajito);
+    io.to(sala).emit('mensaje', msj);
+  });
+
+  socket.on('escribiendo', sala => {
+    const { nombre } = usuarios[socket.id];
+    socket.to(sala).broadcast.emit('esta-escribiendo', nombre);
+  });
+
+  socket.on('no-esta-escribiendo', sala => {
+    socket.to(sala).broadcast.emit('no-esta-escribiendo');
+  });
+
+  socket.on('disconnect', () => {
+    if (usuarios[socket.id]) {
+      const { nombre } = usuarios[socket.id];
+    } else {
+      return;
+    }
+
+    const mensaje = mensajeUsuarioAbandonoSala(nombre);
+
+    let usuariosEnLaSala;
+
+    for (let i = 0; i < salas.length; i++) {
+      const socketsSala = io.sockets.adapter.rooms[salas[i].nombre];
+      if (socketsSala) {
+        usuariosEnLaSala = Object.keys(socketsSala.sockets).map(
+          u => usuarios[u],
+        );
+        io.to(salas[i].nombre).emit('mensaje', mensaje);
+        io.to(salas[i].nombre).emit('usuarios-en-sala', usuariosEnLaSala);
+      }
+    }
+
+    eliminarUsuario(usuarios, socket, listaNombres);
   });
 });
 

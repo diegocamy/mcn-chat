@@ -8,7 +8,7 @@ const Chat = ({ socket, usuario }) => {
   const [mensajesChat, setMensajesChat] = useState([]);
   const [salas, setSalas] = useState([]);
   const [salaSeleccionada, setSalaSeleccionada] = useState(['General']);
-  const [usuarios, setUsuarios] = useState({});
+  const [usuarios, setUsuarios] = useState([]);
 
   useEffect(() => {
     socket.on('usuarios-en-sala', usuariosEnSala => {

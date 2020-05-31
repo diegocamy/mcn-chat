@@ -24,6 +24,11 @@ const Registro = ({ socket, setUsuario }) => {
     if (nombre.trim().length === 0) {
       return setError('Debe ingresar un nombre');
     }
+
+    if (nombre.trim().length > 12) {
+      return setError('El nombre no debe contener mas de 12 caracteres');
+    }
+
     socket.emit('intentar-ingreso', nombre);
   };
 
