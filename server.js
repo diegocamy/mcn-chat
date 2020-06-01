@@ -102,7 +102,7 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     let nombre;
     if (usuarios[socket.id]) {
-      nombre = usuarios[socket.id];
+      nombre = usuarios[socket.id].nombre;
     } else {
       return;
     }
