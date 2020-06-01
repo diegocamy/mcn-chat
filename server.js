@@ -99,8 +99,9 @@ io.on('connection', socket => {
   });
 
   socket.on('disconnect', () => {
+    let nombre;
     if (usuarios[socket.id]) {
-      const { nombre } = usuarios[socket.id];
+      nombre = usuarios[socket.id];
     } else {
       return;
     }
@@ -127,7 +128,7 @@ io.on('connection', socket => {
 const PORT = process.env.PORT || 5000;
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('clent/build'));
+  app.use(express.static('client/build'));
 
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
