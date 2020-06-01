@@ -4,7 +4,7 @@ import socketIoClient from 'socket.io-client';
 import Registro from './pages/Registro';
 import Chat from './pages/Chat';
 
-const ENDPOINT = 'http://localhost:5000';
+const ENDPOINT = 'http://localhost';
 const socket = socketIoClient(ENDPOINT);
 
 function App() {
